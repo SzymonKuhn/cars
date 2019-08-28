@@ -17,10 +17,8 @@ public class Repair {
     private String contents;
     private int carId;
 
-    public Repair(LocalDateTime addDate, boolean accomplished, LocalDateTime repairDate, String contents, int carId) {
+    public Repair(LocalDateTime addDate, String contents, int carId) {
         this.addDate = addDate;
-        this.accomplished = accomplished;
-        this.repairDate = repairDate;
         this.contents = contents;
         this.carId = carId;
     }

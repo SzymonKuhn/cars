@@ -11,8 +11,9 @@ public interface CarshopQueries {
 
     String CREATE_TABLE_REPAIR_QUERY = "CREATE TABLE IF NOT EXISTS `repairs` (\n" +
             "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\n" +
-            "accomplished TINYINT NOT NULL,\n" +
-            "date DATE,\n" +
+            "added_date DATETIME,\n" +
+            "accomplished TINYINT NOT NULL DEFAULT false,\n" +
+            "repair_date DATETIME,\n" +
             "contents VARCHAR(100),\n" +
             "id_car_fk INT NOT NULL,\n" +
             "FOREIGN KEY (id_car_fk) REFERENCES auta(id));";
@@ -26,4 +27,6 @@ public interface CarshopQueries {
     String SELECT_BY_NR_REJ = "SELECT * FROM auta WHERE nr_rejestracyjny LIKE ?;";
     String SELECT_BY_OWNER_NAME = "SELECT * FROM auta WHERE nazwisko_wlasciciela LIKE ?";
 
+    String INSERT_REPAIR = "INSERT INTO repairs (added_date, contents, id_car_fk ) \n" +
+            "VALUES (?, ?, ?);";
 }

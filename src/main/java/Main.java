@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,8 +10,12 @@ public class Main {
         scanner = new Scanner(System.in);
 
         AutoDAO autoDAO;
+        RepairDAO repairDAO;
+        MysqlConnection mysqlConnection;
         try {
-            autoDAO = new AutoDAO();
+            mysqlConnection = new MysqlConnection();
+            autoDAO = new AutoDAO(mysqlConnection);
+            repairDAO = new RepairDAO(mysqlConnection);
         } catch (IOException | SQLException e) {
             e.printStackTrace();
             return;
@@ -48,11 +53,25 @@ public class Main {
                 String name = scanner.nextLine();
                 List<Auto> auta = autoDAO.listAutosByName(name);
                 System.out.println(auta);
+            } else if (input.equalsIgnoreCase("dodajnaprawe")) {
+                Repair repair = createRepair();
+                boolean repairAdded = repairDAO.insertRepair(repair);
+                System.out.println("Dodano zamówienie? " + repairAdded);
             }
         } while (!input.equalsIgnoreCase("koniec"));
 
 
     }//main
+
+    private static Repair createRepair() {
+        System.out.println("podaj treść zlecenia");
+        String contents = scanner.nextLine();
+        System.out.println("Podaj id samochodu");
+        int id_car = Integer.parseInt(scanner.nextLine());
+        LocalDateTime dateTime = LocalDateTime.now();
+        Repair repair = new Repair(dateTime, contents, id_car);
+        return  repair;
+    }
 
     private static Auto createAuto () {
         System.out.println("Wpisz nr rejestracyjny");

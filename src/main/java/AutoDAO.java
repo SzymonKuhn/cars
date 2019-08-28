@@ -8,10 +8,9 @@ import java.util.List;
 public class AutoDAO {
     private MysqlConnection mysqlConnection;
 
-    public AutoDAO() throws IOException, SQLException {
-        mysqlConnection = new MysqlConnection();
+    public AutoDAO(MysqlConnection mysqlConnection) throws IOException, SQLException {
+        this.mysqlConnection = mysqlConnection;
         createTableIfNotExists();
-        createTableRepairsIfNotExists();
     }
 
     private void createTableIfNotExists() throws SQLException {
@@ -22,13 +21,7 @@ public class AutoDAO {
         }
     }
 
-    private void createTableRepairsIfNotExists() throws SQLException {
-        try (Connection connection = mysqlConnection.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(CarshopQueries.CREATE_TABLE_REPAIR_QUERY)) {
-                statement.execute();
-            }
-        }
-    }
+
 
     public List<Auto> selectAll () throws SQLException {
         List<Auto> auta = new ArrayList<>();
